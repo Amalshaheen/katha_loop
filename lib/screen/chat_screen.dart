@@ -1,3 +1,4 @@
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:katha_loop/application/state_management.dart';
@@ -27,24 +28,31 @@ class ChatScreen extends StatelessWidget {
       backgroundColor: ColorSchemeNew.background,
       body: Stack(
         children: [
-          ListView.separated(
-            itemBuilder: (context, index) => Container(
-              color: ColorSchemeNew.primary,
-              height: 200,
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: 10,
-            ),
-            itemCount: 10,
-          ),
+          ValueListenableBuilder(
+              valueListenable: currentChat,
+              builder: (context, value, child) {
+                if (value.isEmpty) {
+                  return Container();
+                }
+                return ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 70),
+                  itemBuilder: (context, index) => BubbleSpecialThree(
+                    text: value[index].message,
+                    isSender: value[index].role == 'USER',
+                  ),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 10,
+                  ),
+                  itemCount: value.length,
+                );
+              }),
           MessageBar(
             onSend: (text) async {
               final messages = await StoryGenerator().getStoryContinuation(
                 userMessage: text,
                 history: currentChat.value,
               );
-
-              print(messages.toString());
+              currentChat.value = messages;
             },
           ),
         ],

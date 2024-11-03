@@ -9,7 +9,7 @@ import 'package:katha_loop/models/history.dart';
 class StoryGenerator {
   static const String apiUrl = 'https://api.cohere.com/v1/chat';
 
-  getStoryContinuation(
+  Future<List<HistoryModel>> getStoryContinuation(
       {required String userMessage,
       required List<HistoryModel> history}) async {
     try {
@@ -36,13 +36,26 @@ class StoryGenerator {
         // log(data.toString());
         // print(data);
         // print('Response: ${data['text']}');
-        print(data);
-        return data['chat_history'];
+
+        return historyModelFromMap(data['chat_history']);
       } else {
         print('Error: ${response.statusCode}');
+        return [];
       }
     } catch (e) {
       print('Exception: $e');
+      return [];
     }
+  }
+
+  List<HistoryModel> historyModelFromMap(List messageList) {
+    return List.generate(
+      messageList.length,
+      (index) {
+        return HistoryModel(
+            message: messageList[index]['message'],
+            role: messageList[index]['role']);
+      },
+    );
   }
 }

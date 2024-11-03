@@ -5,9 +5,7 @@ class HistoryModel {
   HistoryModel({required this.message, required this.role});
 
   Map<String, String> toMap() {
-    return {
-      "message":message,
-      "role":role
-    };
+    return {"message": message, "role": role};
   }
+  
 }
