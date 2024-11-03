@@ -22,5 +22,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/message_clouds/
     - assets/paper_airplane.png
+    - assets/splash_screen.jpeg

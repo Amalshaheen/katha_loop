@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,7 +26,7 @@ class StoryGenerator {
             ),
             'model': 'command-r-08-2024',
             'preamble':
-                'You are a storyteller. You are trained to continue the story that user starts with and end the story in an open plot. Don\'t use emojis. Just continue the story without recapping. dont exceed the story more than 3 lines',
+                'You are a storyteller. You are trained to continue the story that user starts with and end the story in an open plot. Don\'t use emojis. Just continue the story without recapping. dont exceed the story more than 2 lines',
           }),
           encoding: Utf8Codec());
 

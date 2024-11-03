@@ -11,18 +11,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            ColorSchemeNew.background,
-            ColorSchemeNew.background,
-            ColorSchemeNew.background,
-            ColorSchemeNew.background,
-            ColorSchemeNew.secondary,
-          ],
-        ),
-      ),
+          image:
+              DecorationImage(image: AssetImage('assets/splash_screen.jpeg'))),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -39,6 +29,7 @@ class SplashScreen extends StatelessWidget {
               const Text(
                 'Your Messed up Stories',
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 20),
               FilledButton.icon(
