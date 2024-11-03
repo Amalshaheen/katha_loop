@@ -7,13 +7,20 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  chat_bubbles: ^1.6.0
   flutter:
     sdk: flutter
+  go_router: ^14.3.0
+  google_generative_ai: ^0.4.6
+  http: ^1.2.2
 
 dev_dependencies:
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/message_clouds/
+    - assets/paper_airplane.png
