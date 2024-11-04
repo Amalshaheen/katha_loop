@@ -33,7 +33,8 @@ For Software:
 [Website](katha-loop-web.vercel.app)
 
 ### Screenshot
-
+![Splash](https://github.com/Amalshaheen/katha_loop/blob/main/assets/splashscreen.jpeg)
+![Chat](https://github.com/Amalshaheen/katha_loop/blob/main/assets/chatscreen.jpeg)
 
 
 ## Team Contributions
