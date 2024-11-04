@@ -30,7 +30,7 @@ For Software:
 
 
 # Run
-[Website](katha-loop-web.vercel.app)
+[Website](https://katha-loop-web.vercel.app/)
 
 ### Screenshot
 ![Splash](https://github.com/Amalshaheen/katha_loop/blob/main/assets/splashscreen.jpeg)
