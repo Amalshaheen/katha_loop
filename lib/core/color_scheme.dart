@@ -2,7 +2,7 @@ import 'dart:ui';
 
 class ColorSchemeNew {
   static const background = Color(0xffffad60);
-  static const primary = Color(0xffA66E38);
+  static const primary = Color.fromARGB(255, 4, 34, 80);
   static const secondary = Color(0xffFFEEAD);
   static const blue = Color(0xff96CEB4);
   static const orange = Color(0xfffa984c);
@@ -17,5 +17,4 @@ final chatColors = [
   ColorSchemeNew.grey,
   ColorSchemeNew.orange,
   ColorSchemeNew.yellow,
-
 ];

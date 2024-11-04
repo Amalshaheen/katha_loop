@@ -35,10 +35,6 @@ class SplashScreen extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage('assets/logo.jpg'),
-                    fit: BoxFit.cover,
-                  ),
                 ),
               ),
               Text(
@@ -68,7 +64,6 @@ class SplashScreen extends StatelessWidget {
                     color: ColorSchemeNew.primary,
                   ),
                 ),
-                icon: const StyledIcon(Icons.send),
               ),
             ],
           ),
