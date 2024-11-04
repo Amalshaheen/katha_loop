@@ -5,7 +5,6 @@ import 'package:katha_loop/application/state_management.dart';
 import 'package:katha_loop/core/color_scheme.dart';
 import 'package:katha_loop/core/styled_widgets.dart';
 import 'package:katha_loop/story_generator/story_generator.dart';
-import 'package:katha_loop/models/history.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
@@ -16,14 +15,25 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: StyledIcon(
+        leading: StyledIcon(
           Icons.menu_book_sharp,
         ),
+        title:
+            Text('Katha Loop', style: TextStyle(color: ColorSchemeNew.primary)),
         actions: [
-          StyledIcon(
-            Icons.circle_outlined,
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: AssetImage('assets/logo.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ],
+        foregroundColor: ColorSchemeNew.secondary,
       ),
       backgroundColor: ColorSchemeNew.background,
       body: Stack(
@@ -60,6 +70,8 @@ class ChatScreen extends StatelessWidget {
               );
               currentChat.value = messages;
             },
+            messageBarColor: Colors.transparent,
+            sendButtonColor: ColorSchemeNew.secondary,
           ),
         ],
       ),
