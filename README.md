@@ -28,15 +28,12 @@ For Software:
 - Flutter
 - Google Fonts
 
-### Implementation
-For Software:
-# Installation
-[commands]
 
 # Run
-[commands]
+[Website](katha-loop-web.vercel.app)
 
-### Project Documentation
+### Screenshot
+
 
 
 ## Team Contributions
