@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:katha_loop/core/constants.dart';
 import 'package:katha_loop/core/responsive_utils.dart';
 import 'package:katha_loop/router/routes.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: AppConstants.splashAnimationDuration,
       vsync: this,
     );
     
@@ -130,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen>
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: const AssetImage('assets/splash_screen.jpeg'),
+          image: const AssetImage(AppConstants.splashBackgroundImage),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             theme.colorScheme.primary.withOpacity(0.3),
@@ -149,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen>
                 child: AccessibilityHelper.makeAccessible(
                   semanticLabel: 'Paper airplane logo representing story adventure',
                   child: Image.asset(
-                    'assets/paper_airplane.png',
+                    AppConstants.paperAirplaneImage,
                     width: imageSize,
                     height: imageSize,
                   ),
@@ -184,7 +185,7 @@ class _SplashScreenState extends State<SplashScreen>
             children: [
               // App logo/icon
               AccessibilityHelper.makeAccessible(
-                semanticLabel: 'Katha Loop app icon',
+                semanticLabel: '${AppConstants.appName} app icon',
                 child: Container(
                   width: 80,
                   height: 80,
@@ -207,9 +208,9 @@ class _SplashScreenState extends State<SplashScreen>
               
               // App title
               AccessibilityHelper.makeAccessible(
-                semanticLabel: 'Katha Loop app title',
+                semanticLabel: '${AppConstants.appName} app title',
                 child: Text(
-                  'Katha Loop',
+                  AppConstants.appName,
                   style: theme.textTheme.headlineLarge?.copyWith(
                     fontSize: context.isMobile ? 32 : 40,
                   ),
@@ -221,9 +222,9 @@ class _SplashScreenState extends State<SplashScreen>
               
               // Subtitle
               AccessibilityHelper.makeAccessible(
-                semanticLabel: 'App tagline: Your Messed up Stories',
+                semanticLabel: 'App tagline: ${AppConstants.appTagline}',
                 child: Text(
-                  'Your Messed up Stories',
+                  AppConstants.appTagline,
                   style: GoogleFonts.dancingScript(
                     fontSize: context.isMobile ? 24 : 28,
                     color: theme.colorScheme.onSurfaceVariant,
@@ -247,7 +248,7 @@ class _SplashScreenState extends State<SplashScreen>
                     },
                     icon: const Icon(Icons.rocket_launch_rounded),
                     label: Text(
-                      "Let's Begin the Adventure",
+                      AppConstants.startAdventureButtonText,
                       style: TextStyle(
                         fontSize: context.isMobile ? 16 : 18,
                         fontWeight: FontWeight.w600,
@@ -266,9 +267,9 @@ class _SplashScreenState extends State<SplashScreen>
               
               // Secondary info
               AccessibilityHelper.makeAccessible(
-                semanticLabel: 'App description: Create endless absurd scenarios with AI-powered storytelling',
+                semanticLabel: 'App description: ${AppConstants.appDescription}',
                 child: Text(
-                  'Create endless absurd scenarios\nwith AI-powered storytelling',
+                  AppConstants.appDescription,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                     fontSize: context.isMobile ? 14 : 16,

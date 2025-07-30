@@ -2,6 +2,7 @@ import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:katha_loop/application/state_management.dart';
+import 'package:katha_loop/core/constants.dart';
 import 'package:katha_loop/core/responsive_utils.dart';
 import 'package:katha_loop/core/styled_widgets.dart';
 import 'package:katha_loop/story_generator/story_generator.dart';
@@ -27,7 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
+        duration: AppConstants.messageScrollDuration,
         curve: Curves.easeOut,
       );
     }
@@ -79,9 +80,9 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
       title: AccessibilityHelper.makeAccessible(
-        semanticLabel: 'Katha Loop app title',
+        semanticLabel: '${AppConstants.appName} app title',
         child: Text(
-          'Katha Loop',
+          AppConstants.appName,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontSize: context.isMobile ? 24 : 28,
           ),
@@ -95,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppRadius.md),
             image: const DecorationImage(
-              image: AssetImage('assets/logo.jpg'),
+              image: AssetImage(AppConstants.logoImage),
               fit: BoxFit.cover,
             ),
             border: Border.all(
@@ -205,7 +206,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
-              'Crafting your story...',
+              AppConstants.loadingMessage,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -255,9 +256,16 @@ class _ChatScreenState extends State<ChatScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Failed to generate story: $e'),
+                        content: Text('${AppConstants.errorMessage}: $e'),
                         backgroundColor: theme.colorScheme.error,
                         behavior: SnackBarBehavior.floating,
+                        action: SnackBarAction(
+                          label: 'Retry',
+                          textColor: theme.colorScheme.onError,
+                          onPressed: () {
+                            // Could implement retry logic here
+                          },
+                        ),
                       ),
                     );
                   }
@@ -271,7 +279,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
               messageBarColor: Colors.transparent,
               sendButtonColor: theme.colorScheme.primary,
-              messageBarHintText: 'Type your story prompt...',
+              messageBarHintText: AppConstants.messageHint,
               messageBarHintStyle: TextStyle(
                 color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
                 fontSize: context.isMobile ? 14 : 16,
@@ -308,9 +316,9 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             const SizedBox(height: AppSpacing.lg),
             AccessibilityHelper.makeAccessible(
-              semanticLabel: 'Start Your Story Adventure heading',
+              semanticLabel: AppConstants.startStoryTitle,
               child: Text(
-                'Start Your Story Adventure',
+                AppConstants.startStoryTitle,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   color: theme.colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
@@ -321,9 +329,9 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             const SizedBox(height: AppSpacing.md),
             AccessibilityHelper.makeAccessible(
-              semanticLabel: 'Instructions to start creating stories',
+              semanticLabel: AppConstants.startStoryDescription,
               child: Text(
-                'Type a message below to begin creating\nyour messed up story with AI!',
+                AppConstants.startStoryDescription,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                   height: 1.5,
@@ -353,7 +361,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Text(
-                      'Try starting with:\n"Once upon a time..." or "In a world where..."',
+                      AppConstants.storySuggestions,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                         fontStyle: FontStyle.italic,
