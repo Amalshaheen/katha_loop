@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:katha_loop/core/color_scheme.dart';
+import 'package:katha_loop/core/responsive_utils.dart';
 import 'package:katha_loop/router/routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -53,7 +53,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
     
     return Scaffold(
       body: Container(
@@ -71,138 +70,210 @@ class _SplashScreenState extends State<SplashScreen>
           ),
         ),
         child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isLandscape = constraints.maxWidth > constraints.maxHeight;
+              
+              if (isLandscape && !context.isMobile) {
+                return _buildLandscapeLayout(theme, constraints);
+              }
+              return _buildPortraitLayout(theme, constraints);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPortraitLayout(ThemeData theme, BoxConstraints constraints) {
+    return Column(
+      children: [
+        // Background decoration
+        Expanded(
+          flex: 2,
+          child: _buildBackgroundSection(theme, constraints),
+        ),
+        
+        // Content section
+        Expanded(
+          flex: 3,
+          child: _buildContentSection(theme, constraints),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLandscapeLayout(ThemeData theme, BoxConstraints constraints) {
+    return Row(
+      children: [
+        // Background decoration
+        Expanded(
+          flex: 1,
+          child: _buildBackgroundSection(theme, constraints),
+        ),
+        
+        // Content section
+        Expanded(
+          flex: 1,
+          child: _buildContentSection(theme, constraints),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBackgroundSection(ThemeData theme, BoxConstraints constraints) {
+    final imageSize = context.isMobile 
+        ? constraints.maxWidth * 0.3 
+        : constraints.maxWidth * 0.15;
+    
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: const AssetImage('assets/splash_screen.jpeg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            theme.colorScheme.primary.withOpacity(0.3),
+            BlendMode.overlay,
+          ),
+        ),
+      ),
+      child: AnimatedBuilder(
+        animation: _fadeAnimation,
+        builder: (context, child) {
+          return Opacity(
+            opacity: _fadeAnimation.value,
+            child: Container(
+              padding: EdgeInsets.all(context.isMobile ? AppSpacing.xl : AppSpacing.xxl),
+              child: Center(
+                child: AccessibilityHelper.makeAccessible(
+                  semanticLabel: 'Paper airplane logo representing story adventure',
+                  child: Image.asset(
+                    'assets/paper_airplane.png',
+                    width: imageSize,
+                    height: imageSize,
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildContentSection(ThemeData theme, BoxConstraints constraints) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.isMobile ? AppSpacing.xl : AppSpacing.xxl,
+        vertical: context.isMobile ? AppSpacing.xxl : AppSpacing.xl,
+      ),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(context.isMobile ? AppRadius.xl : AppRadius.lg),
+        ),
+      ),
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Background decoration
-              Expanded(
-                flex: 2,
+              // App logo/icon
+              AccessibilityHelper.makeAccessible(
+                semanticLabel: 'Katha Loop app icon',
                 child: Container(
-                  width: double.infinity,
+                  width: 80,
+                  height: 80,
+                  margin: const EdgeInsets.only(bottom: AppSpacing.lg),
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: const AssetImage('assets/splash_screen.jpeg'),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        theme.colorScheme.primary.withOpacity(0.3),
-                        BlendMode.overlay,
-                      ),
+                    color: theme.colorScheme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                    border: Border.all(
+                      color: theme.colorScheme.primary.withOpacity(0.2),
+                      width: 2,
                     ),
                   ),
-                  child: AnimatedBuilder(
-                    animation: _fadeAnimation,
-                    builder: (context, child) {
-                      return Opacity(
-                        opacity: _fadeAnimation.value,
-                        child: Container(
-                          padding: const EdgeInsets.all(32),
-                          child: Image.asset(
-                            'assets/paper_airplane.png',
-                            width: size.width * 0.3,
-                            height: size.width * 0.3,
-                          ),
-                        ),
-                      );
-                    },
+                  child: Icon(
+                    Icons.auto_stories_rounded,
+                    size: 40,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
               ),
               
-              // Content section
-              Expanded(
-                flex: 3,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(32),
-                    ),
+              // App title
+              AccessibilityHelper.makeAccessible(
+                semanticLabel: 'Katha Loop app title',
+                child: Text(
+                  'Katha Loop',
+                  style: theme.textTheme.headlineLarge?.copyWith(
+                    fontSize: context.isMobile ? 32 : 40,
                   ),
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // App logo/icon placeholder
-                          Container(
-                            width: 80,
-                            height: 80,
-                            margin: const EdgeInsets.only(bottom: 24),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: theme.colorScheme.primary.withOpacity(0.2),
-                                width: 2,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.auto_stories_rounded,
-                              size: 40,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                          
-                          // App title
-                          Text(
-                            'Katha Loop',
-                            style: theme.textTheme.headlineLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                          
-                          const SizedBox(height: 12),
-                          
-                          // Subtitle
-                          Text(
-                            'Your Messed up Stories',
-                            style: GoogleFonts.dancingScript(
-                              fontSize: 24,
-                              color: theme.colorScheme.onSurfaceVariant,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          
-                          const SizedBox(height: 48),
-                          
-                          // CTA Button
-                          SizedBox(
-                            width: double.infinity,
-                            child: FilledButton.icon(
-                              onPressed: () {
-                                context.go(Routes.chatScreen);
-                              },
-                              icon: const Icon(Icons.rocket_launch_rounded),
-                              label: const Text(
-                                "Let's Begin the Adventure",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                              ),
-                            ),
-                          ),
-                          
-                          const SizedBox(height: 16),
-                          
-                          // Secondary info
-                          Text(
-                            'Create endless absurd scenarios\nwith AI-powered storytelling',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              
+              const SizedBox(height: AppSpacing.md),
+              
+              // Subtitle
+              AccessibilityHelper.makeAccessible(
+                semanticLabel: 'App tagline: Your Messed up Stories',
+                child: Text(
+                  'Your Messed up Stories',
+                  style: GoogleFonts.dancingScript(
+                    fontSize: context.isMobile ? 24 : 28,
+                    color: theme.colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              
+              const SizedBox(height: AppSpacing.xxl),
+              
+              // CTA Button
+              SizedBox(
+                width: double.infinity,
+                child: AccessibilityHelper.makeAccessible(
+                  semanticLabel: 'Start button to begin story adventure',
+                  hint: 'Tap to start creating stories',
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      context.go(Routes.chatScreen);
+                    },
+                    icon: const Icon(Icons.rocket_launch_rounded),
+                    label: Text(
+                      "Let's Begin the Adventure",
+                      style: TextStyle(
+                        fontSize: context.isMobile ? 16 : 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: FilledButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        vertical: context.isMobile ? 16 : 20,
                       ),
                     ),
                   ),
+                ),
+              ),
+              
+              const SizedBox(height: AppSpacing.md),
+              
+              // Secondary info
+              AccessibilityHelper.makeAccessible(
+                semanticLabel: 'App description: Create endless absurd scenarios with AI-powered storytelling',
+                child: Text(
+                  'Create endless absurd scenarios\nwith AI-powered storytelling',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                    fontSize: context.isMobile ? 14 : 16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
